@@ -1,0 +1,822 @@
+\documentclass{amsart}
+\usepackage{amssymb,mathtools,array,longtable}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Irrationality of the dilogarithm at 1/4},pdfauthor={Ruiyi Zhang}}
+
+\makeatletter
+\def\LT@makecaption#1#2#3{\LT@mcol\LT@cols c{\hbox to\z@{\hss
+  \parbox[t]\textwidth{\normalsize\@tempcnta=64 \@makecaption{#2}{#3}}\hss}}}
+\makeatother
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[lemma]{Proposition}
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+
+\newcommand{\Li}{\operatorname{Li}}
+\newcommand{\Res}{\operatorname*{Res}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\fl}[1]{\lfloor #1\rfloor}
+\newcommand{\br}[1]{[\,#1\,]}
+
+\begin{document}
+
+\title{Irrationality of the dilogarithm at 1/4}
+\author{Ruiyi Zhang}
+\address{Independent Researcher, Columbia, Maryland, USA}
+\email{ryzfsu@gmail.com}
+\subjclass[2020]{Primary 11J72; Secondary 33B30}
+\keywords{dilogarithm, irrationality, permutation group method}
+
+\begin{abstract}
+We prove that $\operatorname{Li}_2(1/4)$ is irrational. Irrationality of
+$\operatorname{Li}_2(1/s)$ was known for integers $s\le-5$ and $s\ge6$ by
+work of Hata and of Rhin and Viola, and Prellberg recently proved it for
+$s=-4,5,-3$. The linear forms in
+$1$ and $\operatorname{Li}_2(1/4)$ come from one double integral of Viola and
+Zudilin at $z=4$. We expand it into Rhin--Viola integrals in three ways and
+apply their factorial transformations to each term. This gives a common factor
+of the coefficients of the $N$th form. The third expansion adds the primes
+between $265N$ and $322N$ to this factor, which is too small without them. We
+bound the integral by the weighted arithmetic-geometric mean inequality and by
+concavity on circular arcs.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+For $|w|\le1$ let $\Li_2(w)=\sum_{n\ge1}w^n/n^2$. Hata \cite{Ha} proved that
+$\Li_2(1/s)$ is irrational for every integer $s\le-5$ and every $s\ge7$. Rhin
+and Viola adapted their permutation group method \cite{RV96} to the dilogarithm
+and settled $s=6$ \cite{RV05}. They later treated negative arguments
+\cite{RV19}. Viola and Zudilin \cite{VZ} introduced a six-parameter family of
+double integrals. In 2024 Calegari, Dimitrov and Tang
+\cite[Remark~2.8.2 and Section~15.2]{CDT} listed the integers still open:
+$s\in\{-4,-3,-2,2,3,4,5\}$. Prellberg's 2026 preprint \cite{Pr} treats
+$s=-4,5,-3$. We prove the case $s=4$.
+
+\begin{theorem}\label{thm:main}
+The number $\Li_2(1/4)$ is irrational.
+\end{theorem}
+
+By Landen's identity \cite[(25.12.3)]{DLMF},
+$\Li_2(1/4)+\Li_2(-1/3)=-\frac12\log^2(3/4)$, so Theorem~\ref{thm:main} does
+not follow directly from the case $s=-3$.
+
+Put $\theta=\Li_2(1/4)$, $d_m=\operatorname{lcm}(1,\dots,m)$, $d_0=1$, and
+for $N\ge1$
+\begin{equation}\label{eq:GD}
+\begin{aligned}
+G_N&=J_4(240N,240N,190N,157N,215N,165N),\\
+D_N&=d_{323N}\,d_{322N}\,4^{132N}\,3^{107N},
+\end{aligned}
+\end{equation}
+with $J_4$ as in Section~\ref{sec:int}. By \cite[Lemma~2.1]{VZ},
+$D_NG_N\in\Z+\Z\theta$. Sections~\ref{sec:div} and~\ref{sec:dens} give
+$\Delta_N\mid D_N$ with
+\begin{gather*}
+(D_N/\Delta_N)\,G_N\in\Z+\Z\theta,\\
+\lim_{N\to\infty}\frac{\log\Delta_N}{40N}=\delta>4.7670,\qquad
+\lim_{N\to\infty}\frac{\log D_N}{40N}<23.63856,
+\end{gather*}
+and Sections~\ref{sec:an} and~\ref{sec:proof} give
+\[
+G_N>0\ \text{for large }N,\qquad
+\limsup_{N\to\infty}\frac{\log G_N}{40N}\le-18.87333 .
+\]
+Since $23.63856-4.7670-18.87333<0$, Theorem~\ref{thm:main} follows.
+
+The arithmetic follows \cite[Section~3.2]{Pr}. Identity \eqref{eq:E1} for
+$G_N$ and for its image under (F2) gives the analogues of
+\cite[(3.11)--(3.12)]{Pr}. The factorial transformations of \cite{RV05} act on
+each term. For $265N<p<322N$ these expansions give only $M=0$ in
+Lemma~\ref{lem:gains}. These primes account for $57/40$ of $\delta$, and
+the rest of $\delta$ is below $3.35<23.63856-18.87333$. Expansion
+\eqref{eq:E3} gives one power of each such $p$. The bounds of
+Lemma~\ref{lem:gains} depend only on $N/p$, so we need not exclude the
+exceptional primes of \cite[(3.6)--(3.7)]{Pr}. One linear form suffices,
+since $G_N>0$ for large $N$.
+
+Two Python scripts recheck only part of the proof (Appendix~\ref{app:ver}).
+The proof is complete without them. The use of AI tools is described at the
+end of the paper.
+
+\section{Integrals and known results}\label{sec:int}
+
+Let $z>1$. For integers $h,j,k,l,m,q\ge0$ with
+$j+k-m,\ j+q-m,\ h+m-k,\ h+q-k\ge0$ put
+\[
+R_z(x,y)=z^{k-l-q}\,
+\frac{x^j(1-x)^h\,y^k(1-y)^l\,(1-y+zy)^{j+q-m}}
+{\bigl(x(1-y)+zy\bigr)^{j+k-m+1}},
+\]
+and, with small positively oriented circles,
+\begin{align*}
+J_z^{(0)}&=\int_0^1\!\!\int_0^1R_z\,dy\,dx,&
+J_z^{(1)}&=\int_0^1\frac1{2\pi i}\oint_{|y-\frac{x}{x-z}|=\varepsilon}R_z\,dy\,dx,\\
+J_z^{(2)}&=\frac1{2\pi i}\oint_{|x-z|=\varepsilon'}\frac1{2\pi i}
+\oint_{|y-\frac{x}{x-z}|=\varepsilon}R_z\,dy\,dx,&
+J_z&=J_z^{(0)}-(\log z)J_z^{(1)}.
+\end{align*}
+For $t=(h,j,k,l,m)\in\Z_{\ge0}^5$ define $I_z^{(0)}(t)$, $I_z^{(1)}(t)$,
+$I_z^{(2)}(t)$ and $I_z(t)$ in the same way from
+\[
+z^{-l-m}\,\frac{x^j(1-x)^h\,y^k(1-y)^l}{\bigl(x(1-y)+zy\bigr)^{j+k-m+1}}
+\qquad\text{\cite[(2.1)--(2.4)]{RV05}}.
+\]
+For $\mathcal J=J_z$ or $\mathcal J=I_z(t)$, with components
+$\mathcal J^{(0)},\mathcal J^{(1)},\mathcal J^{(2)}$, put
+\[
+c(\mathcal J)=\bigl(c_1(\mathcal J),c_2(\mathcal J)\bigr)
+=\bigl(\mathcal J+\Li_2(1/z)\,\mathcal J^{(2)},\ \mathcal J^{(2)}\bigr).
+\]
+For $t=(h,j,k,l,m)$ let
+\begin{gather*}
+u(t)=(l+m-j,\ h+m-k,\ h+j-l,\ j+k-m),\qquad T(t)=h!\,j!\,k!\,l!\,m!,\\
+H(t)=\max_iu_i,\qquad K(t)=\max\{u_1,\min(u_2,u_3),u_4\},
+\end{gather*}
+and call $t$ \emph{admissible} if $u(t)\in\Z_{\ge0}^4$. Put
+\[
+\rho(t)=(h,m,l,k,j),\qquad \sigma(t)=(h+m-k,\ j+k-m,\ m,\ l,\ k),
+\]
+and let $O(t)$ be the orbit of $t$ under the group generated by $\rho$ and
+$\sigma$. Both maps permute the multiset
+$\{h,j,k,l,m,u_1,u_2,u_3,u_4\}$ \cite[(3.2), (3.15)]{RV05}, so every
+$s\in O(t)$ is admissible when $t$ is.
+
+\begin{enumerate}
+\item[(F1)] \cite[Lemma 2.1]{VZ} Let
+$H_1=\max\{l+q,\,h+m-k,\,h+j-l,\,j+k-m\}$,
+$H_2=\max\{l+q,\,\min(h+m-k,h+j-l),\,j+k-m\}$,
+$\alpha=\max\{0,l+q-k,l+q-m\}$ and $\beta=\max\{0,k+l-h\}$. There are
+$P,Q\in\Z[z]$ with
+\[
+d_{H_1}d_{H_2}\,z^{\alpha}(1-z)^{\beta}\,c(J_z)=(P(z),Q(z)) .
+\]
+\item[(F2)] \cite[Lemma 3.1]{VZ} $c(J_z(h,j,k,l,m,q))=c(J_z(j,h,m,l,k,q))$.
+\item[(F3)] \cite[Theorem 2.1 and (2.9)]{RV05} Let
+$\alpha(t)=\max\{j+k,k+l,l+m\}$ and $\beta(t)=\max\{0,k+l-h\}$. There are
+$P_t,Q_t\in\Z[z]$ with
+\[
+d_{H(t)}d_{K(t)}\,z^{\alpha(t)}(z-1)^{\beta(t)}\,c(I_z(t))=(P_t(z),Q_t(z)) .
+\]
+\item[(F4)] \cite[(3.10)--(3.16)]{RV05} If $t$ is admissible and $s\in O(t)$,
+then $c(I_z(t))/T(t)=c(I_z(s))/T(s)$.
+\end{enumerate}
+
+In the sources, (F1) and (F3) read $\varphi\mathcal J=P-Q\Li_2(1/z)$ and
+$\varphi\mathcal J^{(2)}=Q$, with $\varphi$ the displayed multiplier; (F2)
+and (F4) are stated there for each component. Numbering in \cite{VZ} refers
+to the preprint version.
+
+\begin{lemma}\label{lem:exp}
+Let $a=j+q-m$. Then
+\begin{align}
+c(J_z(h,j,k,l,m,q))&=\sum_{\lambda=0}^{a}\binom a\lambda z^{j+k+\lambda}\,
+c(I_z(h,\,j,\,k+\lambda,\,l+a-\lambda,\,m+\lambda)),\label{eq:E1}\\
+c(J_z(h,j,k,l,m,q))&=\sum_{\lambda=0}^{a}\binom a\lambda z^{j+k}(1-z)^{\lambda}\,
+c(I_z(h,\,j,\,k,\,l+\lambda,\,m)).\label{eq:E3}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Expand $(1-y+zy)^a$ as $((1-y)+zy)^a$ and as $(z+(1-z)(1-y))^a$. Each term
+has the denominator and the pole $y=x/(x-z)$ of the corresponding
+$I_z$-integrand. The powers of $z$ are
+$z^{k-l-q+\lambda}\cdot z^{(l+a-\lambda)+(m+\lambda)}=z^{j+k+\lambda}$ and
+$z^{k-l-q+a-\lambda}\cdot z^{(l+\lambda)+m}=z^{j+k}$. The identities hold
+for each component, hence for $c$.
+\end{proof}
+
+Identity \eqref{eq:E1} is used in the proof of \cite[Lemma~2.1]{VZ} and in
+\cite[(3.11)--(3.12)]{Pr}.
+
+\section{The divisor}\label{sec:div}
+
+\subsection{Local bounds}
+For the tuple in \eqref{eq:GD}, (F1) gives $H_1=323N$, $H_2=322N$,
+$\alpha=132N$, $\beta=107N$. Since $(1-z)^{\beta}=\pm3^{107N}$ at $z=4$,
+\begin{equation}\label{eq:native}
+D_N\,c(G_N)\in\Z^2,\qquad G_N=c_1(G_N)-\theta\,c_2(G_N).
+\end{equation}
+
+Fix $N\ge1$ and a prime $p>3$ with $p^2>430N$. Put $x=N/p$ and
+$F_a=\fl{ax}$, and let $\br{\cdot}$ be the Iverson bracket. For
+$0\le n\le430N$, $v_p(n!)=\fl{n/p}$ and $v_p(d_n)=\br{n\ge p}$.
+
+\begin{lemma}\label{lem:transfer}
+Let $t$ be admissible with all entries of $t$ and $u(t)$ in $[0,430N]$, and
+let $s\in O(t)$. Then, for $i=1,2$,
+\[
+v_p\bigl(c_i(I_4(t))\bigr)\ \ge\ \sum_{\nu=1}^{5}\Bigl(\fl{\frac{t_\nu}{p}}-\fl{\frac{s_\nu}{p}}\Bigr)
+-\br{H(s)\ge p}-\br{K(s)\ge p}.
+\]
+\end{lemma}
+
+\begin{proof}
+By (F4), $c(I_4(t))=T(t)T(s)^{-1}c(I_4(s))$. The entries of $s$ and $u(s)$
+are those of $t$ and $u(t)$ in some order. Apply (F3) to $s$, where $z=4$ and
+$z-1=3$ are units at $p$.
+\end{proof}
+
+\begin{lemma}\label{lem:gains}
+Suppose $p<322N$. For $b\in\{190,215\}$ put $e_b=2b-165$ and
+\begin{align*}
+C&=2F_{240}-F_{265}-F_{215},\\
+U_b&=2F_{240}+2F_b-F_{e_b}-F_{323}-F_{322},\\
+V_b&=2F_b+F_{157}-F_{e_b}-F_{322}.
+\end{align*}
+Then, for $i=1,2$,
+\begin{equation}\label{eq:M}
+v_p\bigl(D_N\,c_i(G_N)\bigr)\ \ge\ M:=\max\{0,\,C,\,U_{190},\,U_{215},\,V_{190},\,V_{215}\}.
+\end{equation}
+If moreover $p>265N$, then $v_p(D_N\,c_i(G_N))\ge1$.
+\end{lemma}
+
+\begin{proof}
+Here $v_p(D_N)=2$. By (F2), $c(G_N)$ is unchanged if \eqref{eq:GD} is
+replaced by $(240N,240N,215N,157N,190N,165N)$. So \eqref{eq:E1}, applied to
+\eqref{eq:GD} for $b=190$ and to this tuple for $b=215$, gives
+\[
+c(G_N)=\sum_{\lambda=0}^{bN}\binom{bN}{\lambda}4^{(240+b)N+\lambda}\,c(I_4(t)),
+\]
+where $t=(240,240,b,157+b,405-b)N+(0,0,1,-1,1)\lambda$. Here
+$u(t)=(322,\,645-2b,\,323-b,\,e_b)N+(0,0,1,0)\lambda$; all entries of $t$
+and $u(t)$ lie in $[0,430N]$. The tuples
+\begin{align*}
+s_1=\sigma t&=(645-2b,\ e_b,\ 405-b,\ 157+b,\ b)N+(0,0,1,-1,1)\lambda,\\
+s_2=\sigma\rho\sigma t&=(323-b,\ 322,\ e_b,\ 405-b,\ 157+b)N+(1,0,0,1,-1)\lambda,\\
+s_3=\sigma\rho\sigma\rho\sigma t&=(240,\ 240,\ 322,\ e_b,\ 405-b)N+(0,0,0,0,1)\lambda
+\end{align*}
+lie in $O(t)$. Put $\tau=\lambda/p$. Then
+$v_p\binom{bN}{\lambda}=F_b-\fl{\tau}-\fl{bx-\tau}$. Also
+$\br{H(s)\ge p}+\br{K(s)\ge p}\le2=v_p(D_N)$ for each $s\in O(t)$, so
+Lemma~\ref{lem:transfer} shows that the $\lambda$-th term of $D_Nc_i(G_N)$
+has valuation at least
+\[
+g(s)=\sum_\nu\bigl(\fl{t_\nu/p}-\fl{s_\nu/p}\bigr)+F_b-\fl\tau-\fl{bx-\tau}.
+\]
+Direct subtraction gives
+\begin{align*}
+g(s_1)&=C+\bigl(F_b-\fl{\tau}-\fl{bx-\tau}\bigr),\\
+g(s_2)&=2F_{240}+F_b-F_{e_b}-F_{322}+\bigl(\fl{bx+\tau}-\fl{\tau}\bigr)\\
+&\qquad-\bigl(\fl{bx-\tau}+\fl{(323-b)x+\tau}\bigr),\\
+g(s_3)&=F_b-F_{e_b}-F_{322}+\bigl(\fl{bx+\tau}-\fl{\tau}\bigr)\\
+&\qquad+\bigl(\fl{(157+b)x-\tau}-\fl{bx-\tau}\bigr).
+\end{align*}
+By $\fl{y}+\fl{w}\le\fl{y+w}$,
+\begin{gather*}
+F_b-\fl\tau-\fl{bx-\tau}\ge0,\qquad \fl{bx+\tau}-\fl\tau\ge F_b,\\
+\fl{(157+b)x-\tau}-\fl{bx-\tau}\ge F_{157},\qquad
+\fl{bx-\tau}+\fl{(323-b)x+\tau}\le F_{323}.
+\end{gather*}
+Hence $g(s_1)\ge C$, $g(s_2)\ge U_b$ and $g(s_3)\ge V_b$ for every $\lambda$.
+The ultrametric inequality and \eqref{eq:native} give \eqref{eq:M}.
+
+Now let $p>265N$. By \eqref{eq:E3},
+\[
+c(G_N)=\sum_{\lambda=0}^{190N}\binom{190N}{\lambda}4^{430N}(-3)^{\lambda}\,c(I_4(t')),
+\]
+where
+\begin{align*}
+t'&=(240,240,190,157,215)N+(0,0,0,1,0)\lambda,\\
+u(t')&=(132,265,323,215)N+(1,0,-1,0)\lambda,\\
+s'=\sigma\rho\sigma t'&=(323,132,215,215,157)N+(-1,1,0,0,1)\lambda,\\
+u(s')&=(240,265,240,190)N.
+\end{align*}
+So $\br{H(s')\ge p}=\br{K(s')\ge p}=0$. Also
+$v_p\binom{190N}{\lambda}=0$ and $F_{240}=F_{215}=F_{190}=0$. By
+Lemma~\ref{lem:transfer} and $v_p(D_N)=2$, each term of $D_Nc_i(G_N)$ has
+valuation at least $2-\fl{323x-\tau}-\fl{132x+\tau}\ge2-\fl{455x}\ge1$, as
+$455x<2$.
+\end{proof}
+
+\subsection{Periodic intervals}
+Since $5$ divides $240$, $265$ and $215$, and $2\cdot240=265+215$, we get
+$C(x+1/5)=C(x)$. For $1\le k\le47$ put $j_k=\fl{5k/48}$,
+$\varrho_k=5k-48j_k$, $a_k=k/240$ and
+\[
+b_k=\begin{cases}(k-j_k)/215,&\varrho_k\le21,\\ (k+j_k+1)/265,&\varrho_k\ge22.\end{cases}
+\]
+
+\begin{lemma}\label{lem:band}
+For $1\le k\le47$ one has $a_k<b_k\le(k+1)/240$ and $C=1$ on $(a_k,b_k)$.
+\end{lemma}
+
+\begin{proof}
+Here $0<\varrho_k<48$, $(k-j_k)/215-a_k=\varrho_k/10320$,
+$(k+j_k+1)/265-a_k=(48-\varrho_k)/12720$ and
+$265(k-j_k)-215(k+j_k+1)=10\varrho_k-215$. So
+$b_k=\min\{(k-j_k)/215,\,(k+j_k+1)/265\}>a_k$, and $48j_k\le5k$ gives
+$b_k\le(k+j_k+1)/265\le(k+1)/240$. For $a_k<x<b_k$,
+\[
+k-j_k-1<k-\tfrac{5k}{48}<215x<k-j_k,\qquad
+k+j_k\le k+\tfrac{5k}{48}<265x<k+j_k+1,
+\]
+and $F_{240}=k$. Hence $C=2k-(k-j_k-1)-(k+j_k)=1$.
+\end{proof}
+
+Put
+$\mathcal C=\bigcup_{r=0}^{9}\bigcup_{k=1}^{47}\,(r/5+a_k,\ r/5+b_k)\subset(1/240,2)$;
+by Lemma~\ref{lem:band} these $470$ intervals are pairwise disjoint. Let
+$\mathcal E_1,\dots,\mathcal E_{18}$ be the open intervals
+\[
+\begin{array}{llll}
+(1/322,\,1/265) & (1/215,\,2/323) & (2/215,\,3/322) & (3/215,\,4/265),\\
+(4/190,\,7/323) & (7/265,\,9/322) & (5/157,\,11/323) & (7/190,\,12/322),\\
+(9/215,\,14/323) & (11/215,\,17/322) & (11/190,\,19/323) & (17/265,\,21/322),\\
+(11/157,\,23/323) & (14/190,\,24/322) & (15/190,\,26/323) & (19/215,\,29/322),\\
+(21/190,\,36/322) & (22/190,\,38/323).
+\end{array}
+\]
+They are pairwise disjoint and lie in $(1/322,1/5)$. Define
+\[
+\mu(x)=\mathbf 1_{\mathcal C}(x)+\sum_{i=1}^{18}\mathbf 1_{\mathcal E_i}(x).
+\]
+
+\begin{proposition}\label{prop:div}
+Let $N\ge1$ and let $p>3$ be a prime with $p^2>430N$. Then
+$\mu(N/p)\le v_p(D_N)$ and $v_p(D_N\,c_i(G_N))\ge\mu(N/p)$ for $i=1,2$.
+\end{proposition}
+
+\begin{proof}
+Let $x=N/p$ with $\mu(x)>0$. Then $1/322<x<2$, so $p<322N$, $v_p(D_N)=2$
+and $\mu(x)\le2$. If $x\notin\bigcup_i\mathcal E_i$, then
+$\mu(x)=\mathbf 1_{\mathcal C}(x)\le\br{C=1}\le M$ by
+Lemmas~\ref{lem:band} and~\ref{lem:gains}. If $x\in\mathcal E_1$, then
+$x\notin\mathcal C$ and $p>265N$, so Lemma~\ref{lem:gains} gives
+$v_p(D_N\,c_i(G_N))\ge1=\mu(x)$. If $x\in\mathcal E_2\cup\dots\cup\mathcal E_{18}$,
+then $M\ge1+\br{C=1}\ge\mu(x)$ by Table~\ref{tab:floors}, which lists the
+floors $F_a$ for $a\in\{157,190,215,240,265,322,323\}$ on pieces with no
+jump inside.
+\end{proof}
+
+\section{Density}\label{sec:dens}
+
+\begin{lemma}\label{lem:dens}
+Let $\Delta_N=\prod p^{\mu(N/p)}$ over primes $p>3$ with $p^2>430N$. Then
+$\Delta_N\mid D_N$, $(D_N/\Delta_N)\,c(G_N)\in\Z^2$, and
+\begin{align*}
+\lim_{N\to\infty}\frac{\log\Delta_N}{40N}&=\delta:=\frac1{40}\int_0^2\mu(x)\,\frac{dx}{x^2}>4.7670,\\
+\lim_{N\to\infty}\frac{\log D_N}{40N}&=c_D:=\frac{645+132\log4+107\log3}{40}<23.63856.
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+The first two claims follow from Proposition~\ref{prop:div} and
+\eqref{eq:native}. If $\mu(N/p)>0$, then $p>N/2$, so $p>3$ and $p^2>430N$
+for $N>1720$. For each of the $488$ intervals $I$ of $\mathcal C$
+and $\mathcal E_1,\dots,\mathcal E_{18}$, the prime number theorem gives
+\[
+\sum_{N/p\in I}\log p=N\int_Ix^{-2}\,dx+o(N).
+\]
+Summing over $I$ gives $\delta$.
+Likewise $\log d_n=n+o(n)$ gives $c_D$, and $c_D<23.63856$ by
+Table~\ref{tab:num}.
+
+The intervals of $\mathcal C$ with $r=0$ contribute
+\[
+\delta_0=\frac1{40}\sum_{k=1}^{47}\Bigl(\frac1{a_k}-\frac1{b_k}\Bigr)
+=\frac1{40}\Bigl(\sum_{k=1}^{47}\frac{240}k-\sum_{\varrho_k\le21}\frac{215}{k-j_k}
+-\sum_{\varrho_k\ge22}\frac{265}{k+j_k+1}\Bigr)>1.6187,
+\]
+with the two cases listed in Table~\ref{tab:band}. Let
+$\ell=\sum_k(b_k-a_k)=1139/22790$ and
+$\bar y=\ell^{-1}\sum_k\int_{a_k}^{b_k}y\,dy=164041/1640160$. For $r\ge1$,
+Jensen's inequality for $y\mapsto(r/5+y)^{-2}$ gives
+\[
+\sum_k\Bigl(\frac1{r/5+a_k}-\frac1{r/5+b_k}\Bigr)
+=\sum_k\int_{a_k}^{b_k}\frac{dy}{(r/5+y)^2}\ge\frac{\ell}{(r/5+\bar y)^2}.
+\]
+So the intervals with $1\le r\le9$ contribute at least
+$\frac{\ell}{40}\sum_r(r/5+\bar y)^{-2}>0.0260$ (Table~\ref{tab:num}). The intervals $\mathcal E_i$
+contribute $\frac{202007398913}{64696932300}>3.1223$. Thus
+$\delta>1.6187+0.0260+3.1223=4.7670$.
+\end{proof}
+
+\section{Analytic estimates}\label{sec:an}
+
+\subsection{The double integral}
+Write $J_N^{(0)}$, $J_N^{(1)}$ for $J_4^{(0)}$, $J_4^{(1)}$ at the tuple
+\eqref{eq:GD}.
+
+\begin{lemma}\label{lem:subst}
+Let $y=\eta/(\eta-4)$. Then $R_4(x,y)\,dy=-f_N(x,\eta)\,d\eta$, where
+\[
+f_N(x,\eta)=\frac{\Psi(x,\eta)^N}{(x-\eta)(4-\eta)},\qquad
+\Psi(x,\eta)=\frac{x^{240}(1-x)^{240}\,\eta^{190}(1-\eta)^{190}}
+{(x-\eta)^{215}(4-\eta)^{322}} .
+\]
+In particular, with
+\[
+\Phi(x,\tau)=\Psi(x,-\tau)=\frac{x^{240}(1-x)^{240}\,\tau^{190}(1+\tau)^{190}}
+{(x+\tau)^{215}(4+\tau)^{322}},
+\]
+we have
+\[
+J_N^{(0)}=\int_0^1\!\!\int_0^\infty\frac{\Phi(x,\tau)^N}{(x+\tau)(4+\tau)}\,d\tau\,dx .
+\]
+\end{lemma}
+
+\begin{proof}
+We have
+\begin{gather*}
+y=\frac{-\eta}{4-\eta},\qquad 1-y=\frac4{4-\eta},\qquad
+1+3y=\frac{4(1-\eta)}{4-\eta},\\
+x(1-y)+4y=\frac{4(x-\eta)}{4-\eta},\qquad dy=\frac{-4\,d\eta}{(4-\eta)^2}.
+\end{gather*}
+The exponents are $j=h=240N$, $k=190N$, $l=157N$, $j+q-m=190N$,
+$j+k-m+1=215N+1$ and $k-l-q=-132N$. The powers of $4$ cancel, since
+$-132+157+190-215=0$ and $4^{-1}\cdot4=1$. Those of $4-\eta$ add to
+$-(322N+1)$, and $(-\eta)^{190N}=\eta^{190N}$. For $J_N^{(0)}$ put
+$\tau=-\eta$. Then $\tau$ runs over $[0,\infty)$ as $y$ runs over $[0,1)$,
+and $-f_N\,d\eta=f_N(x,-\tau)\,d\tau$.
+\end{proof}
+
+\begin{lemma}\label{lem:real}
+For $N\ge1$, $10^{-9}e^{-40(18.88)N}<J_N^{(0)}<e^{-40(18.87333)N}$.
+\end{lemma}
+
+\begin{proof}
+Weighted AM--GM, $x+\tau\ge215\,(x/25)^{25/215}(\tau/190)^{190/215}$, gives
+\begin{align*}
+\Phi&\le\Bigl(\frac5{43}\Bigr)^{25}\Bigl(\frac{38}{43}\Bigr)^{190}
+x^{215}(1-x)^{240}\,\frac{(1+\tau)^{190}}{(4+\tau)^{322}}\\
+&\le\Phi_+:=\Bigl(\frac5{43}\Bigr)^{25}\Bigl(\frac{38}{43}\Bigr)^{190}
+\Bigl(\frac{43}{91}\Bigr)^{215}\Bigl(\frac{48}{91}\Bigr)^{240}
+\frac{(95/22)^{190}}{(161/22)^{322}},
+\end{align*}
+with maxima at $x=43/91$ and $\tau=73/22$. By Table~\ref{tab:num},
+$-\log\Phi_+>40(18.87333)$. Also
+\[
+\int_0^1\!\!\int_0^\infty\frac{d\tau\,dx}{(x+\tau)(4+\tau)}=\int_0^1\frac{\log(4/x)}{4-x}\,dx
+<\frac{1+\log4}{3}<1,
+\]
+so $J_N^{(0)}<\Phi_+^N$.
+For the lower bound let $\mathcal B=[0.4711,0.4713]\times[3.3999,3.4001]$.
+Bounding each factor of $\Phi$ by its least value on $\mathcal B$ gives
+\[
+\Phi\ge\Phi_-:=\frac{0.4711^{240}\,0.5287^{240}\,3.3999^{190}\,4.3999^{190}}
+{3.8714^{215}\,7.4001^{322}}\qquad\text{on }\mathcal B,
+\]
+and $(x+\tau)(4+\tau)<29$ there. By Table~\ref{tab:num},
+$-\log\Phi_-<40(18.88)$. Hence
+$J_N^{(0)}\ge\operatorname{area}(\mathcal B)\,\Phi_-^N/29=4\cdot10^{-8}\,\Phi_-^N/29>10^{-9}e^{-40(18.88)N}$.
+\end{proof}
+
+\subsection{The residue integral}
+Put $A=(3+4i)/5$, $B=(5-12i)/13$ and, for $0\le t,u\le1$,
+\[
+X(t)=\frac{t}{t+A(1-t)},\qquad Y(u)=\frac{u}{u+B(1-u)},\qquad
+\omega=t(1-u)+u(1-t).
+\]
+
+\begin{lemma}\label{lem:arcs}
+For $0\le t,u\le1$ and $x\in[0,1]$:
+\begin{enumerate}
+\item $|X'|\le5/4$, $|Y'|\le13/9$, $|X(1-X)|\le\frac54t(1-t)\le\frac54\omega$,
+$|Y(1-Y)|\le\frac{13}9u(1-u)\le\frac{13}9\omega$, $|Y|\le1$ and $|4-Y|\ge3$;
+\item $|X-Y|\ge7\omega/\sqrt{65}$, and $|x-Y|\ge2\omega_x/\sqrt{13}$ with
+$\omega_x=x(1-u)+u(1-x)$;
+\item $\operatorname{Im}X(t)<0<\operatorname{Im}Y(u)$ for $0<t,u<1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+One has $|t+A(1-t)|^2=1-\frac45t(1-t)\ge\frac45$,
+$|u+B(1-u)|^2=1-\frac{16}{13}u(1-u)\ge\frac9{13}$,
+$X'=A/(t+A(1-t))^2$ and $1-X=A(1-t)/(t+A(1-t))$; similarly for $Y$.
+Also $|u+B(1-u)|^2-u^2=(1-u)(13-3u)/13\ge0$, so $|Y|\le1$. Next
+$t(1-t)\le\omega$, since $\omega-t(1-t)$ equals $u(1-2t)+t^2\ge0$ for
+$t\le\frac12$ and is at least $(1-t)^2$ for $t\ge\frac12$; likewise
+$u(1-u)\le\omega$. For (2),
+$X-Y=\frac{tB(1-u)-uA(1-t)}{(t+A(1-t))(u+B(1-u))}$ and the denominator has
+modulus at most $1$. With $\xi=t(1-u)$, $\zeta=u(1-t)$ and
+$\gamma=\operatorname{Re}(B\bar A)=-33/65$,
+\[
+|tB(1-u)-uA(1-t)|^2=\xi^2+\zeta^2-2\gamma\xi\zeta
+=\tfrac{1-\gamma}2\,\omega^2+\tfrac{1+\gamma}2(\xi-\zeta)^2\ge\tfrac{49}{65}\,\omega^2 .
+\]
+For real $x$ take $A=1$, $t=x$ and $\gamma=\operatorname{Re}B=5/13$. Part (3)
+follows from $\operatorname{Im}X=-\frac45t(1-t)/|t+A(1-t)|^2$ and its
+analogue.
+\end{proof}
+
+\begin{lemma}\label{lem:contour}
+For $N\ge1$, $J_N^{(1)}=\pi^{-1}\operatorname{Im}Z_N$, where
+\[
+Z_N=\int_0^1\!\!\int_0^1f_N\bigl(X(t),Y(u)\bigr)\,X'(t)\,Y'(u)\,dt\,du .
+\]
+\end{lemma}
+
+\begin{proof}
+Residues are invariant under the change of variables of
+Lemma~\ref{lem:subst}, and $y=x/(x-4)$ corresponds to $\eta=x$. Hence
+$J_N^{(1)}=-\int_0^1\Res_{\eta=x}f_N(x,\eta)\,dx$. Fix $x\in(0,1)$. By
+Lemma~\ref{lem:arcs}, $Y$ runs from $0$ to $1$ in the upper half-plane and
+$\bar Y$ in the lower one, both in the closed unit disc. So $\bar Y$ followed
+by $Y$ reversed is a positively oriented Jordan curve around $x$, and the
+other pole $\eta=4$ lies outside. As $f_N$ has real coefficients, the residue
+theorem gives
+\[
+\Res_{\eta=x}f_N=\frac{\overline{W(x)}-W(x)}{2\pi i}=-\frac{\operatorname{Im}W(x)}{\pi},
+\qquad W(x)=\int_0^1f_N(x,Y(u))\,Y'(u)\,du .
+\]
+By Lemma~\ref{lem:arcs}, also with $t$ replaced by $x$,
+\[
+|f_N(x,Y)\,Y'|\ll_N\omega_x^{215N-1},\qquad |f_N(X,Y)\,X'Y'|\ll_N\omega^{215N-1},
+\]
+so both are bounded on $[0,1]^2$. For
+fixed $u\in(0,1)$ the function $w\mapsto f_N(w,Y(u))$ is holomorphic off
+$w=Y(u)$, and $\operatorname{Im}Y(u)>0\ge\operatorname{Im}X(t)$. Cauchy's
+theorem moves $\int_0^1dx$ to the arc $X$, and Fubini's theorem gives
+$\int_0^1W(x)\,dx=Z_N$.
+\end{proof}
+
+\begin{lemma}\label{lem:res}
+For $N\ge1$, $|J_N^{(1)}|<e^{-40(18.8995)N}$.
+\end{lemma}
+
+\begin{proof}
+Put $r=t/(1-t)=e^R$ and $s=u/(1-u)=e^S$, so $X=r/(r+A)$ and $Y=s/(s+B)$.
+With
+\[
+Q_1=r^2+\tfrac65r+1,\quad Q_2=s^2+\tfrac{10}{13}s+1,\quad
+Q_3=r^2+\tfrac{66}{65}rs+s^2,\quad Q_4=9s^2+\tfrac{120}{13}s+16,
+\]
+one has $|X(1-X)|=r/Q_1$, $|Y(1-Y)|=s/Q_2$, $|X-Y|^2=Q_3/(Q_1Q_2)$ and
+$|4-Y|^2=Q_4/Q_2$. So $\log|\Psi(X,Y)|=L$, where
+\[
+L=240\log r+190\log s-\tfrac{265}2\log Q_1+\tfrac{157}2\log Q_2
+-\tfrac{215}2\log Q_3-161\log Q_4 .
+\]
+Let $\ell_\gamma(v)=\log(\cosh v+\gamma)$ and $\kappa=\log(4/3)$. Since
+$Q_1=2r(\cosh R+\frac35)$, $Q_2=2s(\cosh S+\frac5{13})$,
+$Q_3=2rs(\cosh(R-S)+\frac{33}{65})$ and $Q_4=24s(\cosh(S-\kappa)+\frac5{13})$,
+\begin{align*}
+L={}&-\tfrac{323}2\log2-161\log24-\tfrac{265}2\ell_{3/5}(R)+\tfrac{157}2\ell_{5/13}(S)\\
+&-\tfrac{215}2\ell_{33/65}(R-S)-161\,\ell_{5/13}(S-\kappa).
+\end{align*}
+Here $\ell_\gamma''=(1+\gamma\cosh v)/(\cosh v+\gamma)^2>0$ and, for
+$0<\gamma<1$,
+\[
+(\log\ell_\gamma'')'=-\sinh v\,\frac{2+\gamma\cosh v-\gamma^2}{(1+\gamma\cosh v)(\cosh v+\gamma)},
+\qquad
+|(\log\ell_\gamma'')'|\le\frac{2|\sinh v|}{\cosh v+\gamma}<2,
+\]
+so $\ell_\gamma''(v-\kappa)\ge\frac9{16}\ell_\gamma''(v)$. Therefore
+\begin{align*}
+-d^2L={}&\tfrac{265}2\ell_{3/5}''(R)\,dR^2+\tfrac{215}2\ell_{33/65}''(R-S)(dR-dS)^2\\
+&+\bigl(161\,\ell_{5/13}''(S-\kappa)-\tfrac{157}2\ell_{5/13}''(S)\bigr)dS^2
+\end{align*}
+is positive definite, since $161\cdot\frac9{16}>\frac{157}2$. So $L$ is
+strictly concave and $L_{RS}>0$. The partial derivatives are
+\begin{align*}
+L_R&=240-265\,\frac{r(r+3/5)}{Q_1}-215\,\frac{r(r+33s/65)}{Q_3},\\
+L_S&=190+157\,\frac{s(s+5/13)}{Q_2}-215\,\frac{s(s+33r/65)}{Q_3}-322\,\frac{s(9s+60/13)}{Q_4} .
+\end{align*}
+Table~\ref{tab:grad} gives $L_R,L_S>0$ at $(r,s)=(\frac{29}{25},\frac{139}{100})$
+and $L_R,L_S<0$ at $(\frac{59}{50},\frac{71}{50})$. Consider the box
+$\frac{29}{25}\le r\le\frac{59}{50}$, $\frac{139}{100}\le s\le\frac{71}{50}$.
+Since $L_{RS}>0$, we get $L_R>0$ on its face $r=\frac{29}{25}$, $L_R<0$ on
+$r=\frac{59}{50}$, $L_S>0$ on $s=\frac{139}{100}$ and $L_S<0$ on
+$s=\frac{71}{50}$.
+So the maximum of $L$ on the box is an interior critical point, hence the
+global maximum. At $(r,s)=(\frac{117}{100},\frac75)$,
+Table~\ref{tab:grad} gives $-\frac14<L_R<0<L_S<\frac3{10}$ and $L<-755.99$.
+Concavity gives
+\[
+\sup L<-755.99+\tfrac14\log\tfrac{117}{116}+\tfrac3{10}\log\tfrac{71}{70}
+<-755.99+\tfrac1{464}+\tfrac3{700}<-755.98 .
+\]
+By Lemma~\ref{lem:arcs}, $|X'Y'|<2$, $|X-Y|\ge\frac45\omega$ and $|4-Y|\ge3$.
+With $w=1-2u$,
+\[
+\int_0^1\!\!\int_0^1\frac{dt\,du}{\omega}=\int_0^1\frac{\log\frac{1-u}{u}}{1-2u}\,du
+=\frac12\int_{-1}^1\log\frac{1+w}{1-w}\,\frac{dw}{w}
+=2\sum_{n\ge0}\frac1{(2n+1)^2}=\frac{\pi^2}4 .
+\]
+By Lemma~\ref{lem:contour},
+\[
+|J_N^{(1)}|\le\frac1\pi\cdot2\cdot\frac54\cdot\frac13\cdot\frac{\pi^2}4\,e^{-40(18.8995)N}
+=\frac{5\pi}{24}\,e^{-40(18.8995)N}<e^{-40(18.8995)N}.\qedhere
+\]
+\end{proof}
+
+\section{Proof of Theorem~\ref{thm:main}}\label{sec:proof}
+
+By Lemmas~\ref{lem:real} and~\ref{lem:res},
+$J_N^{(0)}>10^{-9}e^{-40(18.88)N}>(\log4)\,|J_N^{(1)}|$ for large $N$.
+Hence $G_N=J_N^{(0)}-(\log4)J_N^{(1)}>0$ and $G_N<3e^{-40(18.87333)N}$. Put
+\[
+\Lambda_N=\frac{D_N}{\Delta_N}\,G_N
+=\frac{D_N}{\Delta_N}\,c_1(G_N)-\frac{D_N}{\Delta_N}\,c_2(G_N)\,\theta .
+\]
+By \eqref{eq:native} and Lemma~\ref{lem:dens}, $\Lambda_N\in\Z+\Z\theta$.
+Also $\Lambda_N>0$ for large $N$, and
+\[
+\limsup_{N\to\infty}\frac{\log\Lambda_N}{40N}\le c_D-\delta-18.87333
+<23.63856-4.7670-18.87333=-0.00177 .
+\]
+If $q_0\theta\in\Z$ for an integer $q_0\ge1$, then $q_0\Lambda_N$ is a
+positive integer for large $N$ and $q_0\Lambda_N\to0$, which is impossible.
+\qed
+
+\appendix
+
+\section{Floor data}\label{app:floor}
+
+Table~\ref{tab:floors} cuts each $\mathcal E_i$ at the jumps of the $F_a$.
+On each piece, $F_a=\fl{ax_0}$ with $x_0$ the left end. The columns $C$,
+$U_b$, $V_b$ follow from Lemma~\ref{lem:gains}, and the last column is
+$1+\br{C=1}$. The first row uses \eqref{eq:E3} instead of $C$, $U_b$, $V_b$.
+
+{\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\begin{longtable}{l|*{7}{>{$}r<{$}}|*{5}{>{$}r<{$}}|>{$}c<{$}}
+\caption{Floors on the pieces of $\mathcal E_1,\dots,\mathcal E_{18}$.}\label{tab:floors}\\
+\text{piece} & F_{157} & F_{190} & F_{215} & F_{240} & F_{265} & F_{322} & F_{323}
+& C & U_{190} & U_{215} & V_{190} & V_{215} & 1{+}\br{C{=}1}\\ \hline
+\endfirsthead
+\text{piece} & F_{157} & F_{190} & F_{215} & F_{240} & F_{265} & F_{322} & F_{323}
+& C & U_{190} & U_{215} & V_{190} & V_{215} & 1{+}\br{C{=}1}\\ \hline
+\endhead
+$(1/322,1/265)$ & 0 & 0 & 0 & 0 & 0 & 1 & 1 & \multicolumn{5}{c|}{by \eqref{eq:E3}} & 1 \\
+\hline
+$(1/215,1/190)$ & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & -1 & 1 & -2 & 0 & 1 \\
+$[1/190,2/323)$ & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & 0 & 1 \\
+\hline
+$(2/215,3/322)$ & 1 & 1 & 2 & 2 & 2 & 2 & 3 & 0 & -1 & 1 & -1 & 1 & 1 \\
+\hline
+$(3/215,4/265)$ & 2 & 2 & 3 & 3 & 3 & 4 & 4 & 0 & -1 & 1 & -1 & 1 & 1 \\
+\hline
+$(4/190,7/323)$ & 3 & 4 & 4 & 5 & 5 & 6 & 6 & 1 & 2 & 1 & 1 & 0 & 2 \\
+\hline
+$(7/265,9/323)$ & 4 & 5 & 5 & 6 & 7 & 8 & 8 & 0 & 1 & -1 & 1 & -1 & 1 \\
+$[9/323,6/215)$ & 4 & 5 & 5 & 6 & 7 & 8 & 9 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[6/215,9/322)$ & 4 & 5 & 6 & 6 & 7 & 8 & 9 & -1 & -1 & 0 & 0 & 1 & 1 \\
+\hline
+$(5/157,7/215)$ & 5 & 6 & 6 & 7 & 8 & 10 & 10 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[7/215,8/240)$ & 5 & 6 & 7 & 7 & 8 & 10 & 10 & -1 & -1 & 0 & 0 & 1 & 1 \\
+$[8/240,9/265)$ & 5 & 6 & 7 & 8 & 8 & 10 & 10 & 1 & 1 & 2 & 0 & 1 & 2 \\
+$[9/265,11/323)$ & 5 & 6 & 7 & 8 & 9 & 10 & 10 & 0 & 1 & 1 & 0 & 0 & 1 \\
+\hline
+$(7/190,12/323)$ & 5 & 7 & 7 & 8 & 9 & 11 & 11 & 0 & 1 & -1 & 1 & -1 & 1 \\
+$[12/323,8/215)$ & 5 & 7 & 7 & 8 & 9 & 11 & 12 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[8/215,12/322)$ & 5 & 7 & 8 & 8 & 9 & 11 & 12 & -1 & -1 & 0 & 0 & 1 & 1 \\
+\hline
+$(9/215,8/190)$ & 6 & 7 & 9 & 10 & 11 & 13 & 13 & 0 & -1 & 1 & -2 & 0 & 1 \\
+$[8/190,14/323)$ & 6 & 8 & 9 & 10 & 11 & 13 & 13 & 0 & 1 & 1 & 0 & 0 & 1 \\
+\hline
+$(11/215,10/190)$ & 8 & 9 & 11 & 12 & 13 & 16 & 16 & 0 & -1 & 1 & -1 & 1 & 1 \\
+$[10/190,17/322)$ & 8 & 10 & 11 & 12 & 13 & 16 & 17 & 0 & 0 & 0 & 1 & 1 & 1 \\
+\hline
+$(11/190,14/240)$ & 9 & 11 & 12 & 13 & 15 & 18 & 18 & -1 & 0 & -1 & 1 & 0 & 1 \\
+$[14/240,19/323)$ & 9 & 11 & 12 & 14 & 15 & 18 & 18 & 1 & 2 & 1 & 1 & 0 & 2 \\
+\hline
+$(17/265,21/323)$ & 10 & 12 & 13 & 15 & 17 & 20 & 20 & 0 & 1 & -1 & 1 & -1 & 1 \\
+$[21/323,14/215)$ & 10 & 12 & 13 & 15 & 17 & 20 & 21 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[14/215,21/322)$ & 10 & 12 & 14 & 15 & 17 & 20 & 21 & -1 & -1 & 0 & 0 & 1 & 1 \\
+\hline
+$(11/157,17/240)$ & 11 & 13 & 15 & 16 & 18 & 22 & 22 & -1 & -1 & 0 & 0 & 1 & 1 \\
+$[17/240,23/323)$ & 11 & 13 & 15 & 17 & 18 & 22 & 22 & 1 & 1 & 2 & 0 & 1 & 2 \\
+\hline
+$(14/190,24/323)$ & 11 & 14 & 15 & 17 & 19 & 23 & 23 & 0 & 1 & -1 & 1 & -1 & 1 \\
+$[24/323,16/215)$ & 11 & 14 & 15 & 17 & 19 & 23 & 24 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[16/215,24/322)$ & 11 & 14 & 16 & 17 & 19 & 23 & 24 & -1 & -1 & 0 & 0 & 1 & 1 \\
+\hline
+$(15/190,17/215)$ & 12 & 15 & 16 & 18 & 20 & 25 & 25 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[17/215,19/240)$ & 12 & 15 & 17 & 18 & 20 & 25 & 25 & -1 & -1 & 0 & 0 & 1 & 1 \\
+$[19/240,21/265)$ & 12 & 15 & 17 & 19 & 20 & 25 & 25 & 1 & 1 & 2 & 0 & 1 & 2 \\
+$[21/265,26/323)$ & 12 & 15 & 17 & 19 & 21 & 25 & 25 & 0 & 1 & 1 & 0 & 0 & 1 \\
+\hline
+$(19/215,14/157)$ & 13 & 16 & 19 & 21 & 23 & 28 & 28 & 0 & -1 & 1 & -2 & 0 & 1 \\
+$[14/157,17/190)$ & 14 & 16 & 19 & 21 & 23 & 28 & 28 & 0 & -1 & 1 & -1 & 1 & 1 \\
+$[17/190,29/323)$ & 14 & 17 & 19 & 21 & 23 & 28 & 28 & 0 & 1 & 1 & 1 & 1 & 1 \\
+$[29/323,29/322)$ & 14 & 17 & 19 & 21 & 23 & 28 & 29 & 0 & 0 & 0 & 1 & 1 & 1 \\
+\hline
+$(21/190,36/323)$ & 17 & 21 & 23 & 26 & 29 & 35 & 35 & 0 & 1 & -1 & 1 & -1 & 1 \\
+$[36/323,24/215)$ & 17 & 21 & 23 & 26 & 29 & 35 & 36 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[24/215,36/322)$ & 17 & 21 & 24 & 26 & 29 & 35 & 36 & -1 & -1 & 0 & 0 & 1 & 1 \\
+\hline
+$(22/190,25/215)$ & 18 & 22 & 24 & 27 & 30 & 37 & 37 & 0 & 0 & -2 & 1 & -1 & 1 \\
+$[25/215,28/240)$ & 18 & 22 & 25 & 27 & 30 & 37 & 37 & -1 & -1 & 0 & 0 & 1 & 1 \\
+$[28/240,31/265)$ & 18 & 22 & 25 & 28 & 30 & 37 & 37 & 1 & 1 & 2 & 0 & 1 & 2 \\
+$[31/265,38/323)$ & 18 & 22 & 25 & 28 & 31 & 37 & 37 & 0 & 1 & 1 & 0 & 0 & 1 \\
+\end{longtable}}
+
+\begin{table}[ht]
+\caption{The two cases in the definition of $b_k$.}\label{tab:band}
+\centering\small
+\begin{tabular}{c|cc|cc}
+$j_k$ & $\varrho_k\le21$ & $k-j_k$ & $\varrho_k\ge22$ & $k+j_k+1$\\ \hline
+0 & $1\le k\le4$ & $1,\dots,4$ & $5\le k\le9$ & $6,\dots,10$\\
+1 & $10\le k\le13$ & $9,\dots,12$ & $14\le k\le19$ & $16,\dots,21$\\
+2 & $20\le k\le23$ & $18,\dots,21$ & $24\le k\le28$ & $27,\dots,31$\\
+3 & $29\le k\le33$ & $26,\dots,30$ & $34\le k\le38$ & $38,\dots,42$\\
+4 & $39\le k\le42$ & $35,\dots,38$ & $43\le k\le47$ & $48,\dots,52$
+\end{tabular}
+\end{table}
+
+\section{Numerical values}\label{app:num}
+
+Values are truncated to the digits shown.
+
+\begin{table}[ht]
+\caption{Constants.}\label{tab:num}
+\centering\small
+\begin{tabular}{l|l}
+quantity & value\\ \hline
+$-\log\Phi_+/40$ & $18.8733376741\ldots$\\
+$-\log\Phi_-/40$ & $18.8775167011\ldots$\\
+$c_D$ & $23.6385592638\ldots$\\
+$\delta_0$ & $1.6187800851\ldots$\\
+$\frac{\ell}{40}\sum_{r=1}^9(r/5+\bar y)^{-2}$ & $0.0260767666\ldots$\\
+$\frac1{40}\sum_i\int_{\mathcal E_i}x^{-2}\,dx$ & $3.1223644109\ldots$
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\caption{Values of $L_R$, $L_S$ and $L$.}\label{tab:grad}
+\centering\small
+\begin{tabular}{c|ccc}
+$(r,s)$ & $L_R$ & $L_S$ & $L$\\ \hline
+$(29/25,\,139/100)$ & $0.57635\ldots$ & $0.62026\ldots$ & \\
+$(59/50,\,71/50)$ & $-0.52544\ldots$ & $-1.02457\ldots$ & \\
+$(117/100,\,7/5)$ & $-0.22659\ldots$ & $0.26833\ldots$ & $-755.99795\ldots$
+\end{tabular}
+\end{table}
+
+\section{Computer checks}\label{app:ver}
+
+The two scripts in Table~\ref{tab:checks} recheck only the statements listed
+there, in exact rational arithmetic. They are included as ancillary files.
+The proof does not use them. For
+$\log v$ the analytic script writes $v=2^eq$ with $e\in\Z$, $1\le q\le2$, and
+uses $30$ terms of $\log q=2\sum_{n\ge0}w^{2n+1}/(2n+1)$, $w=(q-1)/(q+1)$,
+with tail at most $2w^{61}/(61(1-w^2))$.
+
+\begin{table}[ht]
+\caption{Scripts.}\label{tab:checks}
+\centering\small
+\begin{tabular}{>{\raggedright}p{0.27\textwidth}>{\raggedright}p{0.53\textwidth}r}
+script & statements checked & time\tabularnewline \hline
+\texttt{check\_arith.py} & the intervals $\mathcal E_i$ and Tables~\ref{tab:floors}, \ref{tab:band} as printed; Lemma~\ref{lem:band}; the tuples $s_1,s_2,s_3,s'$ and the floor sums in Lemma~\ref{lem:gains}; Proposition~\ref{prop:div} for $1/265\le x<2$ at each jump of the $F_a$ and between consecutive jumps, and $M=0$, $\mu=1$ on $\mathcal E_1$; the numbers in Lemma~\ref{lem:dens}; $57/40$ and $3.35$ in Section~1; rows 4--6 of Table~\ref{tab:num} & 10\,s\tabularnewline
+\texttt{check\_arith.py --brute 1,2,3,4,5,6,7,8} & for $N\le8$ and all primes $p$ with $3<p\le323N$ and $p^2>430N$ (for larger $p$, $\mu(N/p)=0$), the best bound from Lemma~\ref{lem:transfer} over \eqref{eq:E1} with $b=190,215$ and \eqref{eq:E3}, all $\lambda$ and all $s\in O(t)$, is at least $\mu(N/p)$ & 3\,min\tabularnewline
+\texttt{check\_analytic.py} & the exponents in Lemma~\ref{lem:subst}; the constants in Lemma~\ref{lem:real}; the identities in Lemmas~\ref{lem:arcs} and~\ref{lem:res} at rational points; rows 1--3 of Table~\ref{tab:num} and Table~\ref{tab:grad} as printed; $23.63856-4.7670-18.87333=-0.00177$ & 1\,s\tabularnewline
+\end{tabular}
+\end{table}
+
+\section*{Use of AI tools}
+
+Codex (OpenAI, GPT-5.6 Sol) searched for the parameters in \eqref{eq:GD}
+and wrote the Python code and the interval lists. Claude Code (Anthropic,
+Claude Fable 5) checked the code, the parameters and the tables. The author
+checked every step of the proof, every table and every reference, and takes
+full responsibility for the content of the paper.
+
+\begin{thebibliography}{10}
+
+\bibitem{CDT}
+F.~Calegari, V.~Dimitrov, and Y.~Tang, \emph{The linear independence of $1$,
+$\zeta(2)$, and $L(2,\chi_{-3})$}, preprint (2024), arXiv:2408.15403v2.
+
+\bibitem{DLMF}
+\emph{NIST Digital Library of Mathematical Functions},
+\url{https://dlmf.nist.gov/}, Release 1.2.8 of 2026-09-15, F.~W.~J. Olver
+et al., eds.
+
+\bibitem{Ha}
+M.~Hata, \emph{Rational approximations to the dilogarithm}, Trans. Amer. Math.
+Soc. \textbf{336} (1993), no.~1, 363--387. MR1147401
+
+\bibitem{Pr}
+T.~Prellberg, \emph{Three irrationality results for the dilogarithm:
+Rhin--Viola and Viola--Zudilin constructions at $-1/4$, $1/5$, and $-1/3$},
+preprint (2026), arXiv:2609.06895v1.
+
+\bibitem{RV96}
+G.~Rhin and C.~Viola, \emph{On a permutation group related to $\zeta(2)$},
+Acta Arith. \textbf{77} (1996), no.~1, 23--56. MR1404975
+
+\bibitem{RV05}
+G.~Rhin and C.~Viola, \emph{The permutation group method for the dilogarithm},
+Ann. Sc. Norm. Super. Pisa Cl. Sci. (5) \textbf{4} (2005), no.~3, 389--437.
+MR2185863
+
+\bibitem{RV19}
+G.~Rhin and C.~Viola, \emph{Linear independence of $1$, $\mathrm{Li}_1$ and
+$\mathrm{Li}_2$}, Mosc. J. Comb. Number Theory \textbf{8} (2019), no.~1,
+81--96. MR3864310
+
+\bibitem{VZ}
+C.~Viola and W.~Zudilin, \emph{Linear independence of dilogarithmic values},
+J. Reine Angew. Math. \textbf{736} (2018), 193--223; preprint version:
+Max-Planck-Institut f\"ur Mathematik Preprint Series 2014 (26),
+\url{http://www.mpim-bonn.mpg.de/preblob/5515}. MR3769989
+
+\end{thebibliography}
+
+\end{document}

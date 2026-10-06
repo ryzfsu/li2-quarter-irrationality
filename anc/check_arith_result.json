@@ -1,0 +1,14 @@
+{
+ "table_A1_rows": 45,
+ "lemma_3_2_states": "PASS",
+ "band": "PASS",
+ "prop_3_4_points_with_mu_positive": 1416,
+ "density": {
+  "delta_0": "1.6187800851",
+  "jensen_tail": "0.0260767666",
+  "extra": "3.1223644109",
+  "lower_bound_sum": "4.7672212627",
+  "exact_delta": "4.7691957646"
+ },
+ "status": "PASS"
+}
