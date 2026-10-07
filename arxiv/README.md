@@ -5,8 +5,8 @@
 
     arXiv:submit/8148488 [math.NT] 29 Sep 2026
 
-The submission was declined by arXiv moderation on 2026-09-30 and was not announced, so
-the paper has no arXiv identifier. The file is kept unchanged as a record of what was
+Submitted to arXiv on 2026-09-29. The submission was not announced, so the paper has no
+arXiv identifier. The file is kept unchanged as a record of what was
 submitted.
 
 - Source: `main.tex` and `anc/` at the repository root, byte-identical to the
