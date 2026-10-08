@@ -2,6 +2,8 @@
 
 Ruiyi Zhang
 
+DOI: [10.5281/zenodo.23247747](https://doi.org/10.5281/zenodo.23247747)
+
 This repository contains the manuscript proving that `Li_2(1/4)` is irrational, its
 LaTeX source, and the ancillary verification files.
 
@@ -24,3 +26,19 @@ arXiv identifier.
 ## Checks
 
     cd anc && python3 check_arith.py && python3 check_analytic.py
+
+## Citation
+
+Ruiyi Zhang, *Irrationality of the dilogarithm at 1/4*, preprint, Zenodo, 2026. https://doi.org/10.5281/zenodo.23247747
+
+```bibtex
+@misc{zhang2026li2quarter,
+  author    = {Zhang, Ruiyi},
+  title     = {Irrationality of the dilogarithm at 1/4},
+  year      = {2026},
+  publisher = {Zenodo},
+  note      = {Preprint},
+  doi       = {10.5281/zenodo.23247747},
+  url       = {https://doi.org/10.5281/zenodo.23247747}
+}
+```
