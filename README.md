@@ -14,10 +14,6 @@ LaTeX source, and the ancillary verification files.
   The proof is complete without them. See `anc/README.md`.
 - `SHA256SUMS`
 
-The source is the payload submitted to arXiv on 2026-09-29 as `submit/8148488`;
-`main.tex` and `anc/` are byte-identical to that stored source. The paper carries no
-arXiv identifier.
-
 ## Build
 
     pdflatex main.tex

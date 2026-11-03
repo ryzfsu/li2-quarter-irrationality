@@ -12,7 +12,7 @@ the analytic constants), in exact rational arithmetic, using only the Python 3 s
 - `*_result.json` — outputs of the runs below.
 
 The scripts read `main.tex` from the current directory, from their own directory, or from the parent
-directory (the arXiv source layout). Run from this directory:
+directory. Run from this directory:
 
     python3 check_arith.py                              # about 10 s
     python3 check_arith.py --brute 1,2,3,4,5,6,7,8      # about 3 min
